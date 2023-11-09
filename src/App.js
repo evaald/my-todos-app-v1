@@ -1,55 +1,35 @@
 import logo from './logo.svg';
 import './App.css';
 
-function Todos1 (props) {
+function Todos (props) {
   return (
     <>
      <div class="card text-bg-light mb-3">
-      <div class="card-header">{props.header}</div>
+      <div class="card-header">{props.createdAt}</div>
       <div class="card-body">
-        <h5 class="card-title">Tugas Sekolah</h5>
-        <p class="card-text">Tugas Ipa</p>
+        <h5 class="card-title">{props.title}</h5>
+        <p class="card-text">{props.body}</p>
       </div>
      </div>
     </>
     );
 }
-function Todos2 (props) {
-  return (
-    <>
-    <div class="card text-bg-light mb-3" >
-    <div class="card-header">{props.header}</div>
-    <div class="card-body">
-        <h5 class="card-title">Rutinitas</h5>
-        <p class="card-text">Menyapu halaman depan rumah</p>
-    </div>
-    </div>
-    </>
-    );
-}
-function Todos3 (props) {
-  return (
-    <>
-    <div class="card text-bg-light mb-3" >
-    <div class="card-header">{props.header}</div>
-    <div class="card-body">
-     <h5 class="card-title">Tugas MSIB</h5>
-      <p class="card-text">Mengerjakan project akhir</p>
-   </div>
-   </div>
-    </>
-    );
-}
-
 
 function App() {
   const name= "Eva";
+  const tanggal_updated = new Date();
+
+  const updatedYear = tanggal_updated.getFullYear();
+  const updatedMonth = String(tanggal_updated.getMonth() + 1).padStart(2, "0");
+  const updatedDay = String(tanggal_updated.getDate()).padStart(2, "0");
+  const formattedUpdatedDate = `${updatedDay}/${updatedMonth}/${updatedYear}`;
+
   return (
   <div className="App" class="card" >
       <h1>Catatan {name}</h1>
-      <Todos1 header="05/11/2023"/>
-      <Todos2 header="05/11/2023"/>
-      <Todos3 header="05/11/2023"/>
+      <Todos createdAt={formattedUpdatedDate} title="Tugas Sekolah" body="Mengerjakan tugas Ipa"/>
+      <Todos createdAt={formattedUpdatedDate} title="Rutinitas" body="Menyapu"/>
+      <Todos createdAt={formattedUpdatedDate} title="MSIB" body="Mengerjakan tugas Week 12"/>
   </div>
   );
 }
