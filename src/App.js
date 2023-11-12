@@ -3,8 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 
-const array_todos =[
-];
+const array_todos =[];
 
 function Search ({onSearch}) {
 
@@ -25,7 +24,7 @@ function Search ({onSearch}) {
   );
 };
 
-function Addtodos () {
+function Addtodos() {
   const name = 'Eva';
   const tanggal_updated = new Date();
 
@@ -51,7 +50,7 @@ function Addtodos () {
   }, [todos, filter]);
 
   const handleDelete = (id) => {
-    const updatedTodos = array_todos.filter((index) => index !== id);
+    const updatedTodos = todos.filter((todo, index) => index !== id);
     setTodos(updatedTodos);
   };
 
@@ -68,39 +67,39 @@ function Addtodos () {
     e.preventDefault();
   };
 
-  return(
+  return (
     <>
-     <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Title</Form.Label>
-            <Form.Control
-              type="title"
-              placeholder="Title"
-              value={todo.title}
-              onChange={(e) => setTodo({ ...todo, title: e.target.value })}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Body</Form.Label>
-            <Form.Control
-              type="body"
-              placeholder="Body"
-              value={todo.body}
-              onChange={(e) => setTodo({ ...todo, body: e.target.value })}
-            />
-          </Form.Group>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="title"
+            placeholder="Title"
+            value={todo.title}
+            onChange={(e) => setTodo({ ...todo, title: e.target.value })}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Body</Form.Label>
+          <Form.Control
+            type="body"
+            placeholder="Body"
+            value={todo.body}
+            onChange={(e) => setTodo({ ...todo, body: e.target.value })}
+          />
+        </Form.Group>
 
-          {todo.title && todo.body ? (
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          ) : (
-            <Button variant="danger" disabled type="submit">
-              Submit
-            </Button>
-          )}
-        </Form>
-        <br />
+        {todo.title && todo.body ? (
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        ) : (
+          <Button variant="danger" disabled type="submit">
+            Submit
+          </Button>
+        )}
+      </Form>
+      <br />
       <Search onSearch={handleSearch} />
       <br />
       <h1>Catatan {name}</h1>
@@ -111,12 +110,13 @@ function Addtodos () {
           createdAt={formattedUpdatedDate}
           title={todo.title}
           body={todo.body}
-          onDelete={handleDelete}
+          onDelete={() => handleDelete(index)}
         />
-      ))};
+      ))}
     </>
   );
-};
+}
+
 
 function Todos ({ id, createdAt, title, body, onDelete }) {
   return (
