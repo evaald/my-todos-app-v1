@@ -1,7 +1,14 @@
-.App {
+.App, form {
   text-align: center;
 }
 
+h1{
+  text-align: center;
+}
+
+.delete {
+  float: right;
+}
  .card {
   margin: 20px 100px ;
  }
