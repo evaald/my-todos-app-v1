@@ -69,6 +69,7 @@ function Addtodos() {
 
   return (
     <>
+      <h1>Catatan {name}</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Title</Form.Label>
@@ -102,7 +103,7 @@ function Addtodos() {
       <br />
       <Search onSearch={handleSearch} />
       <br />
-      <h1>Catatan {name}</h1>
+      
       {filteredTodos.map((todo, index) => (
         <Todos
           key={index}
