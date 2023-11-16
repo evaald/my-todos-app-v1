@@ -1,4 +1,4 @@
-.App, form {
+.form {
   text-align: center;
 }
 
@@ -6,11 +6,20 @@ h1{
   text-align: center;
 }
 
+.ToAddTodos {
+  position: absolute;
+  top: 10px; /* Sesuaikan dengan jarak dari bagian atas */
+  left: 10px; /* Sesuaikan dengan jarak dari bagian kiri */
+  flex: none;
+  margin: 10px;
+}
+
 .delete {
   float: right;
 }
  .card {
   margin: 20px 100px ;
+  text-align: center;
  }
 
 .App-logo {
