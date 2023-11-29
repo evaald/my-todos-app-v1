@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { addNote, logout } from '../utils/api';
 
 // const initialTodos = [{id: 1, title : "hhh", body: "kdfjk"}, {id: 2, title : "kk", body: "fjk"}];
 
@@ -17,6 +18,8 @@ const Addtodos = ({ addTodo, todos, setTodos }) => {
   const navigateHome = () => {
     navigate('/Home');
   };
+
+  // console.log(getAccessToken)
 
   useEffect(() => {
     console.log('Data diubah:', todos);
@@ -39,8 +42,29 @@ const Addtodos = ({ addTodo, todos, setTodos }) => {
     });
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/'); // Gantilah '/Login' dengan path ke halaman login yang sesuai
+};
+
+  const handleAddnote = async () => {
+    try {
+      await addNote({ title: todo.title, body: todo.body });
+      console.log("Catatan berhasil ditambahkan");
+    } catch (error) {
+      console.error("Gagal menambahkan catatan:", error.message);
+    }
+  };
+  
+
   return (
     <>
+      <div >
+      <Button variant="danger" type="button" className="LogOut" onClick={handleLogout}>
+        Log out
+      </Button>
+      </div>
+      <div>
       <h1>{Judul} , {Name} ! </h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -63,7 +87,7 @@ const Addtodos = ({ addTodo, todos, setTodos }) => {
         </Form.Group>
 
         {todo.title && todo.body ? (
-          <Button variant="primary" type="submit">
+          <Button variant="success" type="submit" onClick={handleAddnote}>
             Kirim
           </Button>
         ) : (
@@ -76,6 +100,7 @@ const Addtodos = ({ addTodo, todos, setTodos }) => {
           Lihat Catatan
         </Button>
       </Form>
+      </div>
     </>
   );
 };

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../utils/api';
 
 const Home = ({ todos, setTodos }) => {
   const name = 'Eva';
@@ -21,7 +22,7 @@ const Home = ({ todos, setTodos }) => {
 
   const navigateaddTodos = (e) => {
     e.preventDefault();
-    navigate('/');
+    navigate('/Addtodos');
   };
 
   useEffect(() => {
@@ -44,11 +45,22 @@ const Home = ({ todos, setTodos }) => {
     setFilter(e.target.value);
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/'); // Gantilah '/Login' dengan path ke halaman login yang sesuai
+};
+
   return (
     <>
     <div>
       <Button variant="danger" type="button" className="ToAddTodos" onClick={navigateaddTodos}>
         Back
+      </Button>
+      </div>
+
+      <div >
+      <Button variant="danger" type="button" className="LogOut" onClick={handleLogout}>
+        Log Out
       </Button>
       </div>
       

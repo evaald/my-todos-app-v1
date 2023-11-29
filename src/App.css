@@ -27,6 +27,14 @@ h1{
   pointer-events: none;
 }
 
+.LogOut {
+  position: absolute;
+  top: 10px; /* Sesuaikan dengan jarak dari bagian atas */
+  right: 10px; /* Sesuaikan dengan jarak dari bagian kiri */
+  flex: none;
+  margin: 10px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
