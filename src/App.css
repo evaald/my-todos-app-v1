@@ -1,14 +1,38 @@
-.App {
+.form {
   text-align: center;
 }
 
+h1{
+  text-align: center;
+}
+
+.ToAddTodos {
+  position: absolute;
+  top: 10px; /* Sesuaikan dengan jarak dari bagian atas */
+  left: 10px; /* Sesuaikan dengan jarak dari bagian kiri */
+  flex: none;
+  margin: 10px;
+}
+
+.delete {
+  float: right;
+}
  .card {
   margin: 20px 100px ;
+  text-align: center;
  }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.LogOut {
+  position: absolute;
+  top: 10px; /* Sesuaikan dengan jarak dari bagian atas */
+  right: 10px; /* Sesuaikan dengan jarak dari bagian kiri */
+  flex: none;
+  margin: 10px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

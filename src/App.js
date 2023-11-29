@@ -1,37 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Addtodos from './pages/Addtodos';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import React, { useState } from 'react';
 
-function Todos (props) {
+
+
+const App = () => {
+  const [todos, setTodos] = useState([]);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState ("");
+
+  const addTodo = (newTodo) => {
+    setTodos([...todos, newTodo]);
+  };
+
+  const addUsername = (newUsername) => {
+    setUsername([...username, newUsername]);
+  };
+
+  const addPassword = (newPassword) => {
+    setPassword([...password, newPassword]);
+  };
+
   return (
-    <>
-     <div class="card text-bg-light mb-3">
-      <div class="card-header">{props.createdAt}</div>
-      <div class="card-body">
-        <h5 class="card-title">{props.title}</h5>
-        <p class="card-text">{props.body}</p>
+    <div className="card">
+      <div className="form">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" 
+            element={<Login username={addUsername} setUsername={setUsername} password={addPassword} setPassword={setPassword}/>} />
+            <Route path="/Register" 
+            element={<Register username={addUsername} setUsername={setUsername} password={addPassword} setPassword={setPassword}/>} />
+            <Route path="/Addtodos"element={<Addtodos addTodo={addTodo} todos={todos} setTodos={setTodos} />} />
+            <Route path="/Home" element={<Home todos={todos} setTodos={setTodos} />} />
+          </Routes>
+        </BrowserRouter>
       </div>
-     </div>
-    </>
-    );
-}
-
-function App() {
-  const name= "Eva";
-  const tanggal_updated = new Date();
-
-  const updatedYear = tanggal_updated.getFullYear();
-  const updatedMonth = String(tanggal_updated.getMonth() + 1).padStart(2, "0");
-  const updatedDay = String(tanggal_updated.getDate()).padStart(2, "0");
-  const formattedUpdatedDate = `${updatedDay}/${updatedMonth}/${updatedYear}`;
-
-  return (
-  <div className="App" class="card" >
-      <h1>Catatan {name}</h1>
-      <Todos createdAt={formattedUpdatedDate} title="Tugas Sekolah" body="Mengerjakan tugas Ipa"/>
-      <Todos createdAt={formattedUpdatedDate} title="Rutinitas" body="Menyapu"/>
-      <Todos createdAt={formattedUpdatedDate} title="MSIB" body="Mengerjakan tugas Week 12"/>
-  </div>
+    </div>
   );
-}
+};
 
 export default App;
