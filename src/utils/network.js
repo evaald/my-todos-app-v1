@@ -34,7 +34,9 @@ async function login({ username, password }) {
     return { error: true, code: response.status, data: null };
   }
 
-  return { error: false, code: response.status, data: responseJson.data };
+  putAccessToken(responseJson?.data?.token);
+  return responseJson?.data?.token;
+
 }
 
 async function register({ user, password }) {

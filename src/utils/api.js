@@ -57,9 +57,10 @@ async function login({ username, password }) {
 async function addNote({ title, body }) {
     try {
       const token = getAccessToken();
+    
   
       if (!token) {
-        throw new Error("Token not available");
+        throw new Error("Token tidak tersedia");
       }
   
       const requestOptions = {
@@ -84,6 +85,30 @@ async function addNote({ title, body }) {
       throw error;
     }
   }
-  
 
-export { login, register, getAccessToken, putAccessToken, logout, addNote };
+  async function getNotes() {
+    const response = await fetchWithToken(`${url}/notes`);
+    const responseJson = await response.json();
+  
+    if (response.status >= 400) {
+      return { error: true, code: response.status, data: null };
+    }
+  
+    return { error: false, code: response.status, data: responseJson.data };
+  }
+  
+  async function deleteNote(id) {
+    const response = await fetchWithToken(`${url}/notes/${id}`, {
+      method: "DELETE",
+    });
+  
+    const responseJson = await response.json();
+  
+    if (response.status >= 400) {
+      return { error: true, code: response.status, data: null };
+    }
+  
+    return { error: false, code: response.status, data: responseJson.data };
+  }
+
+export { login, register, getAccessToken, putAccessToken, logout, addNote, deleteNote, getNotes };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import { login, getAccessToken } from '../utils/api';
+import { login, getAccessToken } from '../utils/network';
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -15,18 +15,18 @@ function Login() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await login({ username, password });
-
+  
       // Jika login berhasil
-      if (response) {
+      if (!response.error) {
         console.log(getAccessToken());
         // Redirect ke halaman Addtodos
-        navigate('/Addtodos');
+        navigate('/Addnotes');
       } else {
         console.error("Login gagal:", response);
-        alert("Login Gagal. Periksa kembali username dan password")
+        alert("Login Gagal. Periksa kembali username dan password");
       }
     } catch (error) {
       console.error("Login gagal:", error);

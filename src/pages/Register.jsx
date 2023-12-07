@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { register } from '../utils/api'; // Update import
+import { register } from '../utils/network'; // Update import
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 
@@ -18,7 +18,7 @@ const handleRegister = async () => {
 
         // Periksa apakah respons memiliki status 200
         if (response) {
-            navigate('/Addtodos')
+            navigate('/Addnotes')
         } else {
             console.error("Gagal mendaftar. Pastikan bahwa username atau password belum terdaftar");
         }

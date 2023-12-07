@@ -1,13 +1,13 @@
-// Home.jsx
-
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import { deleteNote, getNotes } from '../utils/network';
 import { logout } from '../utils/api';
 
-const Home = ({ todos, setTodos }) => {
+const Home = ({ notes, setNotes }) => {
   const name = 'Eva';
+
   const tanggal_updated = new Date();
 
   const updatedYear = tanggal_updated.getFullYear();
@@ -16,63 +16,88 @@ const Home = ({ todos, setTodos }) => {
   const formattedUpdatedDate = `${updatedDay}/${updatedMonth}/${updatedYear}`;
 
   const [filter, setFilter] = useState('');
-  const [filteredTodos, setFilteredTodos] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
 
   const navigate = useNavigate();
 
-  const navigateaddTodos = (e) => {
+  const navigateaddNotes = (e) => {
     e.preventDefault();
-    navigate('/Addtodos');
+    navigate('/Addnotes');
   };
 
   useEffect(() => {
-    setFilteredTodos(
-      todos.filter(
-        (todo) =>
-          todo.title.toLowerCase().includes(filter.toLowerCase()) ||
-          todo.body.toLowerCase().includes(filter.toLowerCase())
+    setFilteredNotes(
+      notes.filter(
+        (note) =>
+          note.title.toLowerCase().includes(filter.toLowerCase()) ||
+          note.body.toLowerCase().includes(filter.toLowerCase())
       )
     );
-  }, [todos, filter]);
+  }, [notes, filter]);
 
-  const handleDelete = (id) => {
-    const updatedTodos = todos.filter((todo, index) => index !== id);
-    setTodos(updatedTodos);
+  const handleDelete = async (id) => {
+    try {
+      // Menghapus catatan dari server dengan memanggil fungsi deleteNote
+      await deleteNote(id);
+
+      // Mengupdate state todos setelah berhasil menghapus catatan dari server
+      const updatedNotes = notes.filter((note) => note.id !== id);
+      setNotes(updatedNotes);
+
+      console.log(`Catatan dengan id: ${id} berhasil dihapus`);
+    } catch (error) {
+      console.error("Gagal menghapus catatan:", error.message);
+    }
   };
 
-  const handleSearch = (e) => {
+  const handleGetnotes = async () => {
+    try {
+      const response = await getNotes();
+      setNotes(response.data); // Pastikan untuk mengakses data dari respons
+      console.log("Catatan berhasil ditampilkan");
+    } catch (error) {
+      console.error("Gagal menampilkan catatan:", error.message);
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
+    // Logika pencarian dapat ditambahkan di sini jika diperlukan
+    // Misalnya, Anda bisa memperbarui filteredNotes dengan hasil pencarian
+  };
+
+  const handleSearchChange = (e) => {
     setFilter(e.target.value);
   };
 
   const handleLogout = () => {
     logout();
-    navigate('/'); // Gantilah '/Login' dengan path ke halaman login yang sesuai
-};
+    navigate('/');
+  };
 
   return (
     <>
-    <div>
-      <Button variant="danger" type="button" className="ToAddTodos" onClick={navigateaddTodos}>
-        Back
-      </Button>
+      <div>
+        <Button variant="danger" type="button" className="ToAddTodos" onClick={navigateaddNotes}>
+          Back
+        </Button>
       </div>
 
-      <div >
-      <Button variant="danger" type="button" className="LogOut" onClick={handleLogout}>
-        Log Out
-      </Button>
+      <div>
+        <Button variant="danger" type="button" className="LogOut" onClick={handleLogout}>
+          Log Out
+        </Button>
       </div>
-      
+
       <h1>Catatan {name}</h1>
 
-      <Form>
+      <Form onSubmit={handleSearchSubmit}>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Cari</Form.Label>
           <Form.Control
             type="search"
             placeholder="Cari"
-            onChange={(e) => handleSearch(e)}
+            onChange={handleSearchChange}
           />
         </Form.Group>
         <Button variant="primary" type="submit">
@@ -80,21 +105,20 @@ const Home = ({ todos, setTodos }) => {
         </Button>
       </Form>
 
-      {filteredTodos.map((todo, index) => (
-        <Todos
-          key={index}
-          id={index}
+      {filteredNotes.map((note, id) => (
+        <Notes
+          key={id}
           createdAt={formattedUpdatedDate}
-          title={todo.title}
-          body={todo.body}
-          onDelete={() => handleDelete(index)}
+          title={note.title}
+          body={note.body}
+          onDelete={() => handleDelete(note.id)}
         />
       ))}
     </>
   );
 };
 
-function Todos({ id, createdAt, title, body, onDelete }) {
+function Notes({ createdAt, title, body, onDelete }) {
   return (
     <>
       <br />
@@ -107,7 +131,7 @@ function Todos({ id, createdAt, title, body, onDelete }) {
             variant="primary"
             type="submit"
             className="delete"
-            onClick={() => onDelete(id)}
+            onClick={onDelete}
           >
             Delete
           </Button>
